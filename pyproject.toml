@@ -1,0 +1,21 @@
+[project]
+name = "balance-social-service"
+version = "0.1.0"
+description = "Primer servicio API de Balance Social"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi[standard]>=0.139.2,<1.0",
+    "sqlalchemy>=2.0,<2.1",
+    "pyodbc>=5.0,<6.0",
+    "pydantic-settings>=2.0,<3.0",
+]
+
+[tool.fastapi]
+entrypoint = "main:app"
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["main", "config", "database", "check_database"]
