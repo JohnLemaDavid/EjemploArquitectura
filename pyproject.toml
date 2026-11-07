@@ -11,11 +11,14 @@ dependencies = [
 ]
 
 [tool.fastapi]
-entrypoint = "main:app"
+entrypoint = "app.main:app"
 
 [build-system]
 requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-py-modules = ["main", "config", "database", "check_database"]
+py-modules = ["check_database"]
+
+[tool.setuptools.packages.find]
+include = ["app*"]

@@ -1,20 +1,15 @@
-from fastapi import FastAPI
+from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from database import get_engine
+from app.db.session import get_engine
 
-app = FastAPI(title="Balance Social Service", version="0.1.0")
-
-
-@app.get("/")
-async def root() -> dict[str, str]:
-    return {"message": "Hola, mundo"}
+router = APIRouter(tags=["Estado"])
 
 
-@app.get("/health/database", response_model=bool, responses={503: {"model": bool}})
+@router.get("/health/database", response_model=bool, responses={503: {"model": bool}})
 def database_health() -> bool | JSONResponse:
     try:
         with get_engine().connect() as connection:

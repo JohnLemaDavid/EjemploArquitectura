@@ -40,7 +40,7 @@ Respuesta esperada:
 
 También puedes probarlo desde la documentación interactiva en [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs). La documentación alternativa está en [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc).
 
-El endpoint está definido en `main.py`: `@app.get("/")` asocia la ruta `/` al método HTTP GET y FastAPI convierte el diccionario de respuesta en JSON.
+El endpoint está definido en `app/main.py`: `@app.get("/")` asocia la ruta `/` al método HTTP GET y FastAPI convierte el diccionario de respuesta en JSON.
 
 ## Conectar con SQL Server
 
@@ -55,4 +55,8 @@ También puedes consultar `GET /health/database` con la API en ejecución. Devue
 
 Por defecto se exige una conexión cifrada y un certificado válido. Para un servidor local de desarrollo con certificado autofirmado puedes establecer `SQL_SERVER_TRUST_SERVER_CERTIFICATE=yes`; para producción utiliza un certificado confiable y conserva `no`. Las variables de entorno del sistema tienen prioridad sobre el archivo `.env`. No compartas ni subas `.env` al repositorio.
 
-`database.py` mantiene un motor compartido con un grupo de conexiones y proporciona `get_session` para inyectar una sesión por solicitud en futuros endpoints mediante `Depends(get_session)`. La sesión se cierra al terminar la solicitud. Las operaciones de escritura deberán confirmar explícitamente sus cambios con `session.commit()`. La conexión real se abre cuando se usa por primera vez, por lo que el GET `/` sigue funcionando independientemente de la base de datos.
+`app/db/session.py` mantiene un motor compartido con un grupo de conexiones y proporciona `get_session` para inyectar una sesión por solicitud mediante `Depends(get_session)`. La sesión se cierra al terminar la solicitud. Las operaciones de escritura deberán confirmar explícitamente sus cambios con `session.commit()`. La conexión real se abre cuando se usa por primera vez, por lo que el GET `/` sigue funcionando independientemente de la base de datos.
+
+## Usuarios activos
+
+`GET /usuarios/activos` consulta `SEGURIDAD.USUARIO` y devuelve los registros con `ACTIVO = 1`, ordenados por usuario. Cada elemento contiene `usuario` y `nombre`; no se consulta la clave. Por ejemplo: `curl http://127.0.0.1:8000/usuarios/activos`. El endpoint actualmente no requiere autenticación; configura el control de acceso antes de exponerlo fuera de un entorno confiable.

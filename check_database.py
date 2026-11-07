@@ -4,7 +4,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from pydantic import ValidationError
 
-from database import get_engine
+from app.db.session import get_engine
 
 
 def main() -> int:

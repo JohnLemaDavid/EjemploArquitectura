@@ -5,7 +5,7 @@ from sqlalchemy import URL, create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 
-from config import get_settings
+from app.core.settings import get_settings
 
 
 @lru_cache
